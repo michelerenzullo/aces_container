@@ -199,13 +199,13 @@ void aces_formatter::  writeHalfLine ( const halfBytes * rgbHalfRow, uint32 row)
 	const halfBytes * pR = rgbHalfRow;
 	const halfBytes * pREnd = pR + hi.channels.size() * imageWidth;
 	
-	scanLineHeader sh = { yMin + row, scanLineSize };
+	scanLineHeader sh = { (int32_t)(yMin + row),(int32_t)scanLineSize };
+
+	uintptr_t scanlineStart = (uintptr_t)pOutputBuffer + LineOffsetTable [row];
+
+	memcpy((void*)scanlineStart, &sh, sizeof(scanLineHeader));
 	
-	char * scanlineStart = pOutputBuffer + LineOffsetTable [row];
-	
-	* (scanLineHeader *) scanlineStart = sh;
-	
-	char * pScan  = scanlineStart + sizeof( scanLineHeader );
+	uintptr_t pScan  = scanlineStart + sizeof( scanLineHeader );
 	//	========================================
 	//	Performance critical section
 	//	========================================			
@@ -252,13 +252,13 @@ void aces_formatter::  writeHalfLine ( const halfBytes * rgbHalfRow, uint32 row)
 
 halfBytes * aces_formatter::  spaceForScanLine ( uint32 row )
 {
-	scanLineHeader sh = { yMin + row, scanLineSize };
+	scanLineHeader sh = { (int32_t)(yMin + row),(int32_t)scanLineSize };
 	
-	char * scanlineStart = pOutputBuffer + LineOffsetTable [row];
-	
-	* (scanLineHeader *) scanlineStart = sh;
-	
-	char * pScan  = scanlineStart + sizeof( scanLineHeader );	
+	uintptr_t scanlineStart = (uintptr_t)pOutputBuffer + LineOffsetTable [row];
+
+	memcpy((void*)scanlineStart, &sh, sizeof(scanLineHeader));
+
+	uintptr_t pScan  = scanlineStart + sizeof( scanLineHeader );
 		
 	return (halfBytes *) pScan;
 }

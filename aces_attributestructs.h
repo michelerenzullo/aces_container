@@ -271,6 +271,8 @@ struct acesHeaderInfo  {
 	float			convergenceDistance;	//	meters
 	string			creator;				//						dublin core
 	float			expTime;				//	seconds (>0)		TIFF tag 33434
+	int             exposureprogram;
+	int             flashmode;
 	float			focalLength;			//	millimeters			TIFF tag 37386
 	float			focus;					//	meters (>0)
 	srational		framesPerSecond;		//	playback rate fps	TIFF tag 51044	

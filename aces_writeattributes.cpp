@@ -104,7 +104,7 @@
 #include "aces_timing.h"
 
 #include "aces_md5.hh"
-
+#include <math.h>
 #include <cassert>
 
 using namespace std;
@@ -616,16 +616,30 @@ void aces_writeattributes:: writeHeader ( acesHeaderInfo & hi,
 	writeMagicNumberAndVersion ();
 	
 	// required aces attributes
-	wrtAttr	(	"acesImageContainerFlag",	hi.acesImageContainerFlag );
-	wrtAttr	(	"channels",					hi.channels );
-	wrtAttr	(	"chromaticities",			hi.Chromaticities );
-	wrtAttr	(	"compression",				hi.Compression );
-	wrtAttr	(	"dataWindow",				hi.dataWindow );
-	wrtAttr	(	"displayWindow",			hi.displayWindow );
-	wrtAttr	(	"lineOrder",				hi.LineOrder );
-	wrtAttr	(	"pixelAspectRatio",			hi.pixelAspectRatio );
-	wrtAttr	(	"screenWindowCenter",		hi.screenWindowCenter );
-	wrtAttr	(	"screenWindowWidth",		hi.screenWindowWidth );
+	wrtAttr("acesImageContainerFlag", hi.acesImageContainerFlag);
+	wrtAttr("channels", hi.channels);
+	wrtAttr("chromaticities", hi.Chromaticities);
+	wrtAttr("compression", hi.Compression);
+	wrtAttr("DateTime", hi.capDate);
+	wrtAttr("ExposureTime", hi.expTime);
+	wrtAttr("FNumber", hi.aperture),
+	wrtAttr("dataWindow", hi.dataWindow);
+	wrtAttr("displayWindow", hi.displayWindow);
+	wrtAttr("lineOrder", hi.LineOrder);
+	wrtAttr("Make", hi.cameraMake);
+	wrtAttr("Model", hi.cameraModel);
+	wrtAttr("Orientation", hi.orientation);
+	wrtAttr("pixelAspectRatio", hi.pixelAspectRatio);
+	wrtAttr("screenWindowCenter", hi.screenWindowCenter);
+	wrtAttr("screenWindowWidth", hi.screenWindowWidth);
+	wrtAttr("screenWindowWidth", hi.screenWindowWidth);
+	wrtAttr("Software", hi.software);
+	wrtAttr("Exif:ApertureValue", (float)log2(pow(hi.aperture, 2)));
+	wrtAttr("Exif:BodySerialNumber", hi.cameraSerialNumber);
+	wrtAttr("Exif:ExposureProgram", hi.exposureprogram);
+	wrtAttr("Exif:Flash", hi.flashmode);
+	wrtAttr("Exif:FocalLength", hi.focalLength);
+	wrtAttr("Exif:ISOSpeedRatings", hi.isoSpeed);
 		
 	// terminator
 	writeChar ( 0 );

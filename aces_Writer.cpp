@@ -123,12 +123,12 @@
 
 //	=====================================================================
 aces_Writer:: aces_Writer() { 
-	pOutputBuffer = NULL; 
+	pOutputBuffer = nullptr; 
 }
 
 //	=====================================================================
 aces_Writer:: ~aces_Writer() { 
-	delete[] pOutputBuffer; 
+	//delete[] pOutputBuffer; we need this buffer persistence, we'll free mem manually, we don't want that the destructor run after acesWrite fun ends.
 }
 
 //	=====================================================================
@@ -211,9 +211,11 @@ err aces_Writer:: configure( const MetaWriteClip & clipMeta )
     // 150e6 to 350E06
 	assert ( outputBufferSize < 350E06 );
 	
-	delete[] pOutputBuffer;
-	pOutputBuffer = new char [ (size_t) outputBufferSize ];
-	assert ( pOutputBuffer != NULL );
+	//delete[] pOutputBuffer;
+	//pOutputBuffer = new char [ (size_t) outputBufferSize ];
+	free(pOutputBuffer);
+	pOutputBuffer = (char*)(malloc((size_t)outputBufferSize)); //prefer free/malloc in Emscripten over new/delete
+	assert ( pOutputBuffer != nullptr );
 	
 	stat.timeConfigure += timer.time(); 
 
@@ -246,7 +248,7 @@ err aces_Writer:: newImageObject ( const DynamicMetadata & imageMeta )
 	numberOfRowsWritten = 0;
 	outputFileSize = 0;
 	
-	filename = outputFilenames[ imageMeta.imageIndex ];
+	//filename = outputFilenames[ imageMeta.imageIndex ]; we won't use filename and saveImageObject fun, we pass and return buffer in Emscripten
 		
 	// save away some dynamic metadata
 	char buffer [80];

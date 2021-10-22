@@ -157,12 +157,11 @@ class aces_Writer {
 	uint32	outputRows;
 	uint32	outputCols;
 	
-	uint64	outputBufferSize;
-	char *	pOutputBuffer;
+
 	
 	//	specific for each image
+	uint64	outputBufferSize;
 	
-	uint64	outputFileSize;
 	
 	//  changes during image processing
 	uint32	numberOfRowsWritten;	
@@ -181,7 +180,8 @@ class aces_Writer {
 	
 public:
 	err		error;
-	
+	char* pOutputBuffer;
+	uint64	outputFileSize;
 	aces_Writer(); 
 	~aces_Writer(); 
 	
