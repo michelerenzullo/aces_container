@@ -128,7 +128,7 @@ aces_Writer:: aces_Writer() {
 
 //	=====================================================================
 aces_Writer:: ~aces_Writer() { 
-	//delete[] pOutputBuffer; we need this buffer persistence, we'll free mem manually, we don't want that the destructor run after acesWrite fun ends.
+	delete[] pOutputBuffer; 
 }
 
 //	=====================================================================
@@ -211,11 +211,9 @@ err aces_Writer:: configure( const MetaWriteClip & clipMeta )
     // 150e6 to 350E06
 	assert ( outputBufferSize < 350E06 );
 	
-	//delete[] pOutputBuffer;
-	//pOutputBuffer = new char [ (size_t) outputBufferSize ];
-	free(pOutputBuffer);
-	pOutputBuffer = (char*)(malloc((size_t)outputBufferSize)); //prefer free/malloc in Emscripten over new/delete
-	assert ( pOutputBuffer != nullptr );
+	delete[] pOutputBuffer;
+	pOutputBuffer = new char [ (size_t) outputBufferSize ];
+	assert ( pOutputBuffer != NULL );
 	
 	stat.timeConfigure += timer.time(); 
 
