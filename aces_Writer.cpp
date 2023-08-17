@@ -208,8 +208,8 @@ err aces_Writer:: configure( const MetaWriteClip & clipMeta )
 	}
 	outputBufferSize = outputRows * (8 + 2 * 4 + outputCols * hi.channels.size() * 2) + 1100000;	
 	
-    // 150e6 to 350E06
-	assert ( outputBufferSize < 350E06 );
+    // 150e6 to 650E06
+	assert ( outputBufferSize < 650E06 );
 	
 	delete[] pOutputBuffer;
 	pOutputBuffer = new char [ (size_t) outputBufferSize ];
